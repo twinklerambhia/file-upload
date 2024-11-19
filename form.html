@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Excel</title>
+</head>
+<body>
+  <h1>Upload Excel File</h1>
+  <form id="uploadForm" action="/upload-excel" method="POST" enctype="multipart/form-data">
+    <label for="file">Choose Excel File:</label>
+    <input type="file" name="file" id="file" required />
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="message"></div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const messageDiv = document.getElementById('message');
+    
+    form.onsubmit = async (event) => {
+      event.preventDefault();  // Prevent the form from submitting the traditional way
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('/upload-excel', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const result = await response.text();
+        messageDiv.textContent = result;
+
+      } catch (error) {
+        messageDiv.textContent = 'Error uploading file!';
+      }
+    };
+  </script>
+</body>
+</html>
